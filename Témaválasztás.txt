@@ -1,0 +1,1 @@
+Dobókocka számláló alkalmazás: Bármilyen fényviszony és háttér előtt képes legyen megszámlálni a dobókocka összértékét illetve a dobókockák darabszámát is jelezze ki.
