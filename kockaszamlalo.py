@@ -3,7 +3,7 @@ import cv2
 cv2.namedWindow("preview")
 vc = cv2.VideoCapture(0)
 
-if vc.isOpened(): #kepteszt
+if vc.isOpened(): #kepteszteles
     rval, frame = vc.read()
 else:
     rval = False
