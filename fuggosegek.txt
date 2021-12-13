@@ -1,3 +1,5 @@
 opencv-contrib-python
 matplotlib
 opencv-python
+panda
+scikit-image
