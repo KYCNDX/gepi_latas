@@ -49,6 +49,29 @@ keypoints = detector.detect(dst)
 
 im_with_keypoints = cv2.drawKeypoints(dst, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
+#pottyok megszamlalasa
+olvasas_int = len(keypoints)
+#szovegge alakitasa
+olvasas_str = str(olvasas_int)
+
+#szoveg beallitasa a kepre irashoz
+font                   = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (10,500)
+fontScale              = 2
+fontColor              = (0,255,0)
+thickness              = 2
+lineType               = 2
+
+#szam kepre irasa
+cv2.putText(im_with_keypoints,olvasas_str, 
+    bottomLeftCornerOfText, 
+    font, 
+    fontScale,
+    fontColor,
+    thickness,
+    lineType)
+
+
 # megmutatas
 cv2.imshow("Keypoints", im_with_keypoints)
 cv2.waitKey(0)
