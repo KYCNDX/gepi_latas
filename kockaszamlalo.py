@@ -2,7 +2,7 @@ import cv2
 import numpy as np;
 
 # kep beolvasasa
-im = cv2.imread("./kepek/20211210_111225.jpg", 0)
+im = cv2.imread("./kepek/20211215_103149.jpg", 0)
 
 #kep atmeretezese
 down_width = 800
@@ -25,19 +25,19 @@ params.maxThreshold = 255
 
 # teruleti szuro
 params.filterByArea = True
-params.minArea = 15
+params.minArea = 150
 
 # kereksegi szuro
 params.filterByCircularity = True
-params.minCircularity = 0.1
+params.minCircularity = 0.5
 
 # forma kereksegi szuro
 params.filterByConvexity = True
-params.minConvexity = 0.47
+params.minConvexity = 0.57
 
 # elipszis forma szuro
 params.filterByInertia = True
-params.minInertiaRatio = 0.1
+params.minInertiaRatio = 0.2
 
 # erzekelo letrehozasa a marameterekkel
 detector = cv2.SimpleBlobDetector_create(params)
