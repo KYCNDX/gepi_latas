@@ -1,19 +1,30 @@
 import cv2
-import numpy as np;
+import numpy as np
 
-# kep beolvasasa
-im = cv2.imread("./kepek/20211215_103149.jpg", 0)
+#kep beolvasas
+img = cv2.imread("./kepek/20211215_103200.jpg", -1 )
 
-#kep atmeretezese
+#atmeretezes
 down_width = 800
 down_height = 600
 down_points = (down_width, down_height)
-resized_down = cv2.resize(im, down_points, interpolation= cv2.INTER_LINEAR)
+resized_down = cv2.resize(img, down_points, interpolation= cv2.INTER_LINEAR)
 
-#threshold beallitas
-th, dst = cv2.threshold(resized_down, 127, 255, cv2.THRESH_BINARY);
-cv2.imshow("Treshold", dst)
-cv2.imwrite("treshold.jpg", dst);
+
+#arnyek eltuntetes
+rgb_planes = cv2.split(resized_down)
+
+result_planes = []
+for plane in rgb_planes:
+    dilated_img = cv2.dilate(plane, np.ones((7,7), np.uint8))
+    bg_img = cv2.medianBlur(dilated_img, 21)
+    diff_img = 255 - cv2.absdiff(plane, bg_img)
+    norm_img = cv2.normalize(diff_img,None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
+    result_planes.append(diff_img)
+
+result = cv2.merge(result_planes)
+
+test = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
 
 #pont kereso parameterei
 params = cv2.SimpleBlobDetector_Params()
@@ -29,7 +40,7 @@ params.minArea = 150
 
 # kereksegi szuro
 params.filterByCircularity = True
-params.minCircularity = 0.5
+params.minCircularity = 0.7
 
 # forma kereksegi szuro
 params.filterByConvexity = True
@@ -43,15 +54,11 @@ params.minInertiaRatio = 0.2
 detector = cv2.SimpleBlobDetector_create(params)
 
 # pontok kereses
-keypoints = detector.detect(dst)
+keypoints = detector.detect(test)
 
-# pontok bejelolese pirossal
+im_with_keypoints = cv2.drawKeypoints(test, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-im_with_keypoints = cv2.drawKeypoints(dst, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
-#pottyok megszamlalasa
 olvasas_int = len(keypoints)
-#szovegge alakitasa
 olvasas_str = str(olvasas_int)
 
 #szoveg beallitasa a kepre irashoz
@@ -71,10 +78,9 @@ cv2.putText(im_with_keypoints,olvasas_str,
     thickness,
     lineType)
 
-
-# megmutatas
+cv2.imshow("result", result)
+cv2.imshow("test", test)
 cv2.imshow("Keypoints", im_with_keypoints)
-cv2.waitKey(0)
 
-#ablak bezarasa
+cv2.waitKey(0)
 cv2.destroyAllWindows()
