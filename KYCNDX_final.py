@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 #kep beolvasasa, eleresi ut es kep modosithato
-img = cv2.imread("./kepek/20211215_103200.jpg", -1 )
+img = cv2.imread("./kepek/20220108_152049.jpg", -1 )
 
 #beolvasott kep atmeretezese
 down_width = 800
@@ -56,8 +56,9 @@ detector = cv2.SimpleBlobDetector_create(params)
 # pontok kereses az erzekelovel
 keypoints = detector.detect(arnyek_gray)
 
-#pontok berajzolasa a kepre
+#pontok berajzolasa a szurkearynalatos es eredeti kepre
 im_with_keypoints = cv2.drawKeypoints(arnyek_gray, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+eredeti = cv2.drawKeypoints(resized_down, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 #pontok megszamolasa es szovegge alakitasa
 olvasas_int = len(keypoints)
@@ -92,7 +93,7 @@ thickness              = 2
 lineType               = 2
 
 #szam kepre irasa
-cv2.putText(im_with_keypoints,olvasas_str, 
+cv2.putText(eredeti,olvasas_str, 
     bottomLeftCornerOfText, 
     font, 
     fontScale,
@@ -101,7 +102,7 @@ cv2.putText(im_with_keypoints,olvasas_str,
     lineType)
 
 #kockaszam kepre irasa
-cv2.putText(im_with_keypoints,text, 
+cv2.putText(eredeti,text, 
     bottomLeftCornerOfTXT, 
     font, 
     fontScale,
@@ -111,7 +112,7 @@ cv2.putText(im_with_keypoints,text,
 
 
 #eredmeny mutatasa
-cv2.imshow("Keypoints", im_with_keypoints)
+cv2.imshow("Eredmeny", eredeti)
 
 #varkozas billentyu lenyomasra
 cv2.waitKey(0)
