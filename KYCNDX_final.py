@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 #kep beolvasasa, eleresi ut es kep modosithato
-img = cv2.imread("./kepek/20220108_152049.jpg", -1 )
+img = cv2.imread("./kepek/20220111_101152.jpg", -1 )
 
 #beolvasott kep atmeretezese
 down_width = 800
@@ -113,7 +113,8 @@ cv2.putText(eredeti,text,
 
 #eredmeny mutatasa
 cv2.imshow("Eredmeny", eredeti)
-
+#eredmeny fajlba mentese
+cv2.imwrite("./kepek/eredmeny/eredmeny_20220111_101152.jpg", eredeti)
 #varkozas billentyu lenyomasra
 cv2.waitKey(0)
 #ablak bezarasa
